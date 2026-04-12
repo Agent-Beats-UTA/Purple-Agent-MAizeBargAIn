@@ -1,0 +1,31 @@
+{
+  manifest_version: "0.3.0",
+
+  config_schema: {
+    type: "object",
+    properties: {
+      openai_api_key: { type: "string" },
+      anthropic_api_key: { type: "string" },
+      llm_provider: { type: "string", default: "openai" },
+    },
+    required: [],
+  },
+
+  program: {
+    image: "ghcr.io/YOUR-GH-ORG/maizebargain-purple:latest",
+    env: {
+      OPENAI_API_KEY: "${config.openai_api_key}",
+      ANTHROPIC_API_KEY: "${config.anthropic_api_key}",
+      LLM_PROVIDER: "${config.llm_provider}",
+    },
+    network: {
+      endpoints: [{ name: "a2a", port: 9018 }],
+    },
+  },
+
+  provides: {
+    a2a: { kind: "http", endpoint: "a2a" },
+  },
+
+  exports: { a2a: "provides.a2a" },
+}
