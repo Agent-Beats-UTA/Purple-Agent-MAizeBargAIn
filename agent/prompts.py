@@ -1,9 +1,9 @@
 """
 prompts.py
 ----------
-The prompt templates for the negotiation LLM call.
+Prompt templates for the negotiation LLM call.
 
-The strategy is to mirror the green agent's own "circle 5" prompting framework
+Strategy: mirror the green agent's own "circle 5" prompting framework
 (rules + objective + worked example + procedure + M1-M5 + numeric checks),
 plus force JSON output so the response is deterministic to parse.
 """

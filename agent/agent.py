@@ -3,7 +3,7 @@ agent.py
 --------
 Main Agent class. One instance per A2A context_id (one negotiation session).
 
-The goal for the flow per incoming message:
+Flow per incoming message:
   1. Parse the green agent's observation.
   2. Update SessionState.
   3. LLM call with the circle-5 style prompt.
@@ -45,7 +45,14 @@ MAX_LLM_RETRIES = 1
 class Agent:
     def __init__(self):
         self.state = SessionState()
-        self.llm = LLM()
+        self._llm: LLM | None = None
+
+    @property
+    def llm(self) -> LLM:
+        # Lazy init so the server can boot without an API key present
+        if self._llm is None:
+            self._llm = LLM()
+        return self._llm
 
     async def run(self, message: Message, updater: TaskUpdater) -> str:
         raw_text = get_message_text(message)
@@ -61,7 +68,7 @@ class Agent:
             self.state.update_from_observation(obs)
 
         # If we have no valuations, we can't reason — just return a safe
-        # heuristic so the game continues.
+        # heuristic so the game continues/
         if not self.state.my_valuations:
             logger.warning("No valuations available; returning safe WALK.")
             return format_action({"action": "WALK"})
@@ -147,7 +154,7 @@ class Agent:
 
         return None
 
-    # Heuristic fallback; always M1-M5 safe
+    # Heuristic fallback — always M1-M5 safe
     def _heuristic_action(self) -> dict:
         s = self.state
         # If they're offering something strictly better than BATNA, ACCEPT

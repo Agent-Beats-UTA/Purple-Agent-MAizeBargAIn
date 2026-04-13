@@ -168,7 +168,7 @@ def validate_action(
                 f"below BATNA {batna:.1f}.",
             )
         return result
-    
+
     if act == "WALK":
         if their_last_offer is not None:
             my_value = my_value_of_their_offer(
@@ -242,7 +242,7 @@ def validate_action(
                 needed_fix = True
 
         # Opportunity check: M5 variant — if their last offer is already > my
-        # best counteroffer's value, we should accept instead. (soft warning)
+        # best counteroffer's value, we should accept instead. (Soft warning.)
         if their_last_offer is not None:
             their_offer_my_value = my_value_of_their_offer(
                 their_last_offer, quantities, my_valuations

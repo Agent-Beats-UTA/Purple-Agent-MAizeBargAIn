@@ -1,12 +1,12 @@
 """
 llm.py
 ------
-Async LLM wrapper supporting OpenAI or Anthropic via LLM_PROVIDER env var.
+Async LLM wrapper supporting OpenAI, Anthropic, or Gemini via LLM_PROVIDER env var.
 
 Defaults:
-  LLM_PROVIDER=openai  (matches your Sprint 1 BWIM agent conventions)
-  OPENAI_MODEL=o4-mini
-  ANTHROPIC_MODEL=claude-sonnet-4-20250514
+  GEMINI_MODEL=gemini-2.5-flash
+
+Gemini uses its OpenAI-compatible endpoint, so the same AsyncOpenAI client works.
 """
 
 from __future__ import annotations
@@ -36,6 +36,21 @@ class LLM:
                 "ANTHROPIC_MODEL", "claude-sonnet-4-20250514"
             ).strip()
             logger.info("LLM provider=anthropic model=%s", self._model)
+
+        elif self._provider == "gemini":
+            # Gemini exposes an OpenAI-compatible endpoint — reuse AsyncOpenAI.
+            # https://ai.google.dev/gemini-api/docs/openai
+            from openai import AsyncOpenAI
+            api_key = os.getenv("GEMINIAPI_KEY_TANT", "").strip()
+            if not api_key:
+                raise ValueError("GEMINIAPI_KEY_TANT is not set.")
+            self._openai = AsyncOpenAI(
+                api_key=api_key,
+                base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+            )
+            self._model = os.getenv("GEMINI_MODEL", "gemini-2.5-flash").strip()
+            logger.info("LLM provider=gemini model=%s", self._model)
+
         else:
             from openai import AsyncOpenAI
             api_key = os.getenv("OPENAI_API_KEY", "").strip()
@@ -67,7 +82,7 @@ class LLM:
                     parts.append(block.text)
             return "".join(parts).strip()
 
-        # OpenAI
+        # OpenAI or Gemini (both via AsyncOpenAI client)
         params: dict = {
             "model": self._model,
             "messages": [
@@ -75,7 +90,7 @@ class LLM:
                 {"role": "user", "content": user_prompt},
             ],
         }
-        if self._is_openai_reasoning():
+        if self._provider == "openai" and self._is_openai_reasoning():
             params["max_completion_tokens"] = self._max_tokens
         else:
             params["max_tokens"] = self._max_tokens

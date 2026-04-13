@@ -6,7 +6,8 @@
     properties: {
       openai_api_key: { type: "string" },
       anthropic_api_key: { type: "string" },
-      llm_provider: { type: "string", default: "openai" },
+      gemini_api_key: { type: "string" },
+      llm_provider: { type: "string", default: "gemini" },
     },
     required: [],
   },
@@ -16,6 +17,7 @@
     env: {
       OPENAI_API_KEY: "${config.openai_api_key}",
       ANTHROPIC_API_KEY: "${config.anthropic_api_key}",
+      GEMINIAPI_KEY_TANT: "${config.gemini_api_key}",
       LLM_PROVIDER: "${config.llm_provider}",
     },
     network: {

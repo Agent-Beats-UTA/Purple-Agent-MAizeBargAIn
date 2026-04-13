@@ -46,13 +46,17 @@ Every one of these is deterministically checkable given the game state, so we ch
 # Install
 uv sync
 
-# Set keys (default provider is OpenAI)
-export OPENAI_API_KEY=sk-...
+# Recommended: use Gemini's free tier (no credit card needed)
+# Get a key from https://aistudio.google.com -> Get API key
+export LLM_PROVIDER=gemini
+export GEMINI_API_KEY=AIza...
 
-# Or use Claude:
+# Alternatively, OpenAI (paid):
+# export OPENAI_API_KEY=sk-...
+#
+# Or Claude (paid):
 # export LLM_PROVIDER=anthropic
 # export ANTHROPIC_API_KEY=sk-ant-...
-# export ANTHROPIC_MODEL=claude-sonnet-4-20250514
 
 uv run python server.py --host 0.0.0.0 --port 9018
 ```
@@ -73,7 +77,9 @@ curl http://localhost:9018/.well-known/agent-card.json
 
 | Variable | Default | Notes |
 |---|---|---|
-| `LLM_PROVIDER` | `openai` | `openai` or `anthropic` |
+| `LLM_PROVIDER` | `openai` | `openai`, `anthropic`, or `gemini` |
+| `GEMINI_API_KEY` | — | Required if provider=gemini (free tier available) |
+| `GEMINI_MODEL` | `gemini-2.5-flash` | Also: `gemini-2.5-flash-lite`, `gemini-2.5-pro` |
 | `OPENAI_API_KEY` | — | Required if provider=openai |
 | `OPENAI_MODEL` | `o4-mini` | |
 | `ANTHROPIC_API_KEY` | — | Required if provider=anthropic |
