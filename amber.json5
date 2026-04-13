@@ -13,6 +13,7 @@
   },
 
   program: {
+    image: "ghcr.io/agent-beats-uta/purple-agent-maizebargain:latest",
     env: {
       OPENAI_API_KEY: "${config.openai_api_key}",
       ANTHROPIC_API_KEY: "${config.anthropic_api_key}",
