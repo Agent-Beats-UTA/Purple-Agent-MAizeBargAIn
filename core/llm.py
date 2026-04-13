@@ -41,9 +41,9 @@ class LLM:
             # Gemini exposes an OpenAI-compatible endpoint — reuse AsyncOpenAI.
             # https://ai.google.dev/gemini-api/docs/openai
             from openai import AsyncOpenAI
-            api_key = os.getenv("GEMINIAPI_KEY_TANT", "").strip()
+            api_key = os.getenv("GEMINI_API_KEY", "").strip()
             if not api_key:
-                raise ValueError("GEMINIAPI_KEY_TANT is not set.")
+                raise ValueError("GEMINI_API_KEY is not set.")
             self._openai = AsyncOpenAI(
                 api_key=api_key,
                 base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
