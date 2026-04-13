@@ -13,7 +13,6 @@
   },
 
   program: {
-    image: "ghcr.io/YOUR-GH-ORG/maizebargain-purple:latest",
     env: {
       OPENAI_API_KEY: "${config.openai_api_key}",
       ANTHROPIC_API_KEY: "${config.anthropic_api_key}",
