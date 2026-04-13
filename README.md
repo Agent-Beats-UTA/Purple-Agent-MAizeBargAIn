@@ -65,24 +65,3 @@ Verify:
 ```bash
 curl http://localhost:9018/.well-known/agent-card.json
 ```
-
-## Submission to the Sprint 2 leaderboard
-
-1. Push this repo to GitHub. The CI builds a Docker image to `ghcr.io/<your-org>/<repo>:latest`.
-2. On [agentbeats.dev](https://agentbeats.dev) → **Register Agent** → select Purple → paste your image URL.
-3. Submit against the **Meta-Game Negotiation Assessor** (MAizeBargAIn green agent). The green agent's README recommends `challenger_circle=5`.
-4. Fill out the [Sprint 2 submission form](https://docs.google.com/forms/d/e/1FAIpQLSeN2IAXtM1h-XjYQO3rb9fL9OnMCpVzHTMB4LaVTytJ7sdjRw/viewform) before 11:59pm PT April 12.
-
-## Environment variables
-
-| Variable | Default | Notes |
-|---|---|---|
-| `LLM_PROVIDER` | `openai` | `openai`, `anthropic`, or `gemini` |
-| `GEMINI_API_KEY` | — | Required if provider=gemini (free tier available) |
-| `GEMINI_MODEL` | `gemini-2.5-flash` | Also: `gemini-2.5-flash-lite`, `gemini-2.5-pro` |
-| `OPENAI_API_KEY` | — | Required if provider=openai |
-| `OPENAI_MODEL` | `o4-mini` | |
-| `ANTHROPIC_API_KEY` | — | Required if provider=anthropic |
-| `ANTHROPIC_MODEL` | `claude-sonnet-4-20250514` | |
-| `LLM_TEMPERATURE` | `0.0` | |
-| `LLM_MAX_TOKENS` | `1024` | |
