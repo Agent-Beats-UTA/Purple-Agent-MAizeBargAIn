@@ -4,10 +4,8 @@
     image: "ghcr.io/agent-beats-uta/purple-agent-maizebargain:latest",
     entrypoint: ["uv", "run", "server.py", "--host", "0.0.0.0", "--port", "9018"],
     env: {
-      LLM_PROVIDER: "${config.llm_provider}",
+      LLM_PROVIDER: "gemini",
       GEMINI_API_KEY: "${config.gemini_api_key}",
-      OPENAI_API_KEY: "${config.openai_api_key}",
-      ANTHROPIC_API_KEY: "${config.anthropic_api_key}",
     },
     network: {
       endpoints: [
@@ -18,12 +16,9 @@
   config_schema: {
     type: "object",
     properties: {
-      llm_provider: { type: "string", default: "gemini" },
-      gemini_api_key: { type: "string", secret: true, default: "" },
-      openai_api_key: { type: "string", secret: true, default: "" },
-      anthropic_api_key: { type: "string", secret: true, default: "" },
+      gemini_api_key: { type: "string", secret: true },
     },
-    required: [],
+    required: ["gemini_api_key"],
     additionalProperties: false,
   },
   provides: {
